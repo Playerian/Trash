@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Game_variables
-    bool hasTrash;
+    public bool hasTrash;
+    private GameObject trash;
     #endregion
 
     // Start is called before the first frame update
@@ -33,6 +34,9 @@ public class PlayerController : MonoBehaviour
         x_input = Input.GetAxisRaw("Horizontal");
         y_input = Input.GetAxisRaw("Vertical");
         Move();
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            Interact();
+        }
 
     }
 
@@ -64,16 +68,44 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Interact_functions 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.transform.CompareTag("Trash"))
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && !hasTrash)
-            {
+    // private void OnCollisionStay2D(Collision2D collision)
+    // {
+    //     if (collision.transform.CompareTag("Trash"))
+    //     {
+    //         if (Input.GetKeyDown(KeyCode.Space) && !hasTrash)
+    //         {
+    //             hasTrash = true;
+    //             pickUpTrash_Anim();
+    //             GameObject trash = collision.gameObject;
+    //             collision.transform.GetComponent<TrashScript>().gettingPickedUp(gameObject);
+    //         }
+    //     }
+    //     if (collision.transform.CompareTag("Can"))
+    //     {
+    //         if (Input.GetKeyDown(KeyCode.Space) && hasTrash)
+    //         {
+    //             hasTrash = false;
+    //             throwTrash_Anim();
+    //             collision.transform.GetComponent<TrashCanScript>().Interact();
+    //         }
+    //     }
+    // }
+    private void Interact() {
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(PlayerRB.position + currDirection, new Vector2(0.5f, 0.5f), 0f, Vector2.zero, 0f);
+        foreach (RaycastHit2D hit in hits) {
+            if (hit.transform.CompareTag("Trash") && !hasTrash) {
                 hasTrash = true;
                 pickUpTrash_Anim();
-                GameObject trash = collision.gameObject;
-                collision.transform.GetComponent<TrashScript>().gettingPickedUp(gameObject);
+                // GameObject trash = collision.gameObject;
+                hit.transform.GetComponent<TrashScript>().gettingPickedUp(gameObject);
+                trash = hit.transform.gameObject;
+            }
+            if (hit.transform.CompareTag("Can") && hasTrash)
+            {
+                hasTrash = false;
+                throwTrash_Anim();
+                hit.transform.GetComponent<TrashCanScript>().Interact();
+                Destroy(trash);
             }
         }
     }
@@ -84,5 +116,12 @@ public class PlayerController : MonoBehaviour
     {
 
     }
+    void throwTrash_Anim() {
+
+    }
     #endregion
+
+    public void DropTrash() {
+        Debug.Log("drop trash");
+    }
 }
