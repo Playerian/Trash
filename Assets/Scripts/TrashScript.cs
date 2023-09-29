@@ -27,7 +27,6 @@ public class TrashScript : MonoBehaviour
     {
         if (isHeld)
         {
-            // print("yes1");
             transform.position = player.transform.position + new Vector3(1,1);
         }
         if (isExploded)
@@ -38,7 +37,6 @@ public class TrashScript : MonoBehaviour
 
     public void gettingPickedUp(GameObject playerObject)
     {
-        // print("yes2");
         isHeld = true;
         player = playerObject;
     }

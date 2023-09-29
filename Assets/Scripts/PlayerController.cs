@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     #region Game_variables
     public bool hasTrash;
     private GameObject trash;
+    [SerializeField]
+    [Tooltip("Spawning explosion")]
+    private GameObject explosion;
     #endregion
 
     // Start is called before the first frame update
@@ -68,28 +71,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Interact_functions 
-    // private void OnCollisionStay2D(Collision2D collision)
-    // {
-    //     if (collision.transform.CompareTag("Trash"))
-    //     {
-    //         if (Input.GetKeyDown(KeyCode.Space) && !hasTrash)
-    //         {
-    //             hasTrash = true;
-    //             pickUpTrash_Anim();
-    //             GameObject trash = collision.gameObject;
-    //             collision.transform.GetComponent<TrashScript>().gettingPickedUp(gameObject);
-    //         }
-    //     }
-    //     if (collision.transform.CompareTag("Can"))
-    //     {
-    //         if (Input.GetKeyDown(KeyCode.Space) && hasTrash)
-    //         {
-    //             hasTrash = false;
-    //             throwTrash_Anim();
-    //             collision.transform.GetComponent<TrashCanScript>().Interact();
-    //         }
-    //     }
-    // }
     private void Interact() {
         RaycastHit2D[] hits = Physics2D.BoxCastAll(PlayerRB.position + currDirection, new Vector2(0.5f, 0.5f), 0f, Vector2.zero, 0f);
         foreach (RaycastHit2D hit in hits) {
@@ -121,7 +102,13 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    public void DropTrash() {
-        Debug.Log("drop trash");
+    public void DropTrash()
+    {
+        if (hasTrash)
+        {
+            hasTrash = false;
+            Instantiate(explosion, trash.transform.position, trash.transform.rotation);
+            Destroy(trash);
+        }
     }
 }

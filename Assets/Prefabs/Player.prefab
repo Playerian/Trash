@@ -138,3 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movespeed: 5
   hasTrash: 0
+  explosion: {fileID: 8046566791938485550, guid: 4cc27e53bcc64461daafdd39ea09cf44, type: 3}

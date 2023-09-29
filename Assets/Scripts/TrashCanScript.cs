@@ -10,11 +10,13 @@ public class TrashCanScript : MonoBehaviour
     #endregion
     // Start is called before the first frame update
     #region Can_Functions
-    IEnumerator DestroyTrashCan() {
+    IEnumerator DestroyTrashCan()
+    {
         yield return new WaitForSeconds(.3f);
         Instantiate(explosion, transform.position, transform.rotation);
     }
-    public void Interact() {
+    public void Interact()
+    {
         Debug.Log("hello");
         StartCoroutine("DestroyTrashCan");
     }
