@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Tooltip("Spawning explosion")]
     private GameObject explosion;
+    private Animator anim;
     #endregion
 
     // Start is called before the first frame update
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRB = GetComponent<Rigidbody2D>();
         hasTrash = false;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,21 +53,25 @@ public class PlayerController : MonoBehaviour
         {
             PlayerRB.velocity = Vector2.right * movespeed;
             currDirection = Vector2.right;
+            anim.SetInteger("walk_int", 1);
         }
         if (x_input < 0)
         {
             PlayerRB.velocity = Vector2.left * movespeed;
             currDirection = Vector2.left;
+            anim.SetInteger("walk_int", 3);
         }
         if (y_input > 0)
         {
             PlayerRB.velocity = Vector2.up * movespeed;
             currDirection = Vector2.up;
+            anim.SetInteger("walk_int", 0);
         }
         if (y_input < 0)
         {
             PlayerRB.velocity = Vector2.down * movespeed;
             currDirection = Vector2.down;
+            anim.SetInteger("walk_int", 2);
         }
     }
     #endregion

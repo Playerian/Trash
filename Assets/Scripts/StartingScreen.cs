@@ -19,6 +19,6 @@ public class StartingScreen : MonoBehaviour
 
     public void playLevel1()
     {
-        SceneManager.LoadScene("level1 ActualCopy");
+        SceneManager.LoadScene("MayaLevel1 1");
     }
 }

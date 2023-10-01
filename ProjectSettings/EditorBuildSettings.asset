@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level1 ActualCopy.unity
     guid: 31b8d98e9483895479f9578914e5dabc
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 91d43db7ac76e4ad4a412dffa25dcbed
+  - enabled: 1
+    path: Assets/Scenes/MayaLevel1 1.unity
+    guid: 5b5040d810dfc45419db3c232732506f
   m_configObjects: {}

@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     private bool isAlive;
     [SerializeField]
     GameObject player;
+    private Animator animator;
+    private SpriteRenderer sr;
 
 
     #endregion
@@ -34,11 +36,22 @@ public class Enemy : MonoBehaviour
         enemRB = GetComponent<Rigidbody2D>();
         currentHealth = health;
         isAlive = true;
+        animator = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
     #region racoonFunctions
     private void StealTrash()
     {
         transform.position = Vector2.MoveTowards(this.transform.position, playerLocation.position, speed * Time.deltaTime);
+        animator.SetBool("isWalk", true);
+        if(this.transform.position.x - playerLocation.position.x < 0)
+        {
+            sr.flipX = true;
+        }
+        else
+        {
+            sr.flipX = false;
+        }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -51,9 +64,12 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         //walk off screen then destroy gameobject
+
         gameObject.GetComponent<BoxCollider2D>().size = new Vector2();
         transform.position = Vector2.MoveTowards(this.transform.position, offScreen.position, dieSpeed * Time.deltaTime);
+        sr.flipX = true;
         StartCoroutine(DieDelay());
+        animator.SetBool("isWalk", true);
 
     }
     IEnumerator DieDelay()
@@ -75,6 +91,10 @@ public class Enemy : MonoBehaviour
         if(isAlive == false)
         {
             Die();
+        }
+        else if(isAlive && player.transform.GetComponent<PlayerController>().hasTrash == false)
+        {
+            animator.SetBool("isWalk", false);
         }
     }
 

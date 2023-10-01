@@ -11,18 +11,22 @@ public class TrashSpawner : MonoBehaviour
     private float trashSpawnTimer;
     [SerializeField]
     public GameObject trashObject;
+    [SerializeField]
+    [Tooltip("Spawn enemy sprites")]
+    private List<Sprite> spriteList;
+
     // Start is called before the first frame update
     void Start()
     {
         trashSpawnTimer = initialTrashSpawnTime;
-        Instantiate(trashObject);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (trashSpawnTimer <= 0 && totalTrash > 0) {
-            Instantiate(trashObject);
+            GameObject trash = Instantiate(trashObject);
+            trash.GetComponent<SpriteRenderer>().sprite = spriteList[Random.Range(0, spriteList.Count)];
             totalTrash -= 1;
             trashSpawnTimer = initialTrashSpawnTime;
         }
